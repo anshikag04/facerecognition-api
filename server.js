@@ -3,15 +3,16 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex')
+require('dotenv').config()
 
 const db = knex({
     // Enter your own database information here based on what you created
     client: 'pg',
     connection: {
-        host: 'john.db.elephantsql.com',
-        user: 'uerhjhmz',
-        password: 'IH3LflBjJhkUqZVvtSmvddIgEsylXmpq',
-        database: 'uerhjhmz'
+        host: process.env.HOST,
+        user: process.env.USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB
     }
 });
 
@@ -99,6 +100,6 @@ app.put('/image', (req, res) => {
         .catch(err => res.status(400).json('unable to get entries'))
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('app is running on port 3000');
 })
