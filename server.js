@@ -8,20 +8,20 @@ const db = knex({
     // Enter your own database information here based on what you created
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
-        user: 'anshika',
-        password: '',
-        database: 'smart-brain'
+        host: 'john.db.elephantsql.com',
+        user: 'uerhjhmz',
+        password: 'IH3LflBjJhkUqZVvtSmvddIgEsylXmpq',
+        database: 'uerhjhmz'
     }
 });
 
 const app = express();
 
 app.use(cors())
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send(database.users);
+    res.send(db.users);
 })
 
 app.post('/signin', (req, res) => {
@@ -45,6 +45,7 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { email, name, password } = req.body;
+    console.log(req.body)
     const hash = bcrypt.hashSync(password);
     db.transaction(trx => {
         trx.insert({
@@ -68,7 +69,10 @@ app.post('/register', (req, res) => {
             .then(trx.commit)
             .catch(trx.rollback)
     })
-        .catch(err => res.status(400).json('unable to register'))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json('unable to register')
+        })
 })
 
 app.get('/profile/:id', (req, res) => {
