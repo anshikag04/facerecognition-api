@@ -6,7 +6,6 @@ const knex = require('knex')
 require('dotenv').config()
 
 const db = knex({
-    // Enter your own database information here based on what you created
     client: 'pg',
     connection: {
         host: process.env.HOST,
